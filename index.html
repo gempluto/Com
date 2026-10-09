@@ -4,9 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>VIP Connection Platform</title>
-  <!-- Paystack Inline Script -->
-  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <!-- Official Squad SDK -->
+  <script src="https://checkout.squadco.com/widget/squad.js"></script>
   <style>
+    /* Strict Mobile Viewport & Screen Fit Fix */
+    html, body {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+      touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    :root {
+      --bg-color: #0B0B0B;
+      --card-bg: #161616;
+      --text-primary: #FFFFFF;
+      --text-secondary: #AAAAAA;
+      --border-gold: #D4AF37;
+      --input-bg: #222222;
+      --input-border: #444444;
+      --btn-cat-bg: linear-gradient(180deg, #262626 0%, #1A1A1A 100%);
+      --btn-cat-border: #3A3A3A;
+      --profile-card-bg: #1A1A1A;
+      --modal-overlay: rgba(0, 0, 0, 0.85);
+      --shadow-color: rgba(212, 175, 55, 0.15);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-color: #FFFFFF;
+        --card-bg: #F8F9FA;
+        --text-primary: #111111;
+        --text-secondary: #555555;
+        --border-gold: #D4AF37;
+        --input-bg: #FFFFFF;
+        --input-border: #CCCCCC;
+        --btn-cat-bg: linear-gradient(180deg, #FFFFFF 0%, #F1F3F5 100%);
+        --btn-cat-border: #E0E0E0;
+        --profile-card-bg: #FFFFFF;
+        --modal-overlay: rgba(0, 0, 0, 0.65);
+        --shadow-color: rgba(0, 0, 0, 0.08);
+      }
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,13 +55,12 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
-      width: 100%;
+    body {
       min-height: 100vh;
-      background-color: #0B0B0B;
-      color: #FFFFFF;
+      background-color: var(--bg-color);
+      color: var(--text-primary);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      touch-action: manipulation;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .app-wrapper {
@@ -35,19 +75,19 @@
     .card {
       width: 100%;
       max-width: 440px;
-      background-color: #161616;
-      border: 1.5px solid #D4AF37;
+      background-color: var(--card-bg);
+      border: 1.5px solid var(--border-gold);
       border-radius: 16px;
       padding: 24px 20px;
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+      box-shadow: 0 10px 30px var(--shadow-color);
       display: flex;
       flex-direction: column;
       margin: auto 0;
     }
 
     .card-instruction {
-      color: #FFFFFF !important;
-      font-size: 14px;
+      color: var(--text-primary) !important;
+      font-size: 15px;
       font-weight: 700;
       text-align: center;
       margin-bottom: 20px;
@@ -56,7 +96,7 @@
     }
 
     .question-label {
-      color: #FFFFFF !important;
+      color: var(--text-primary) !important;
       font-size: 15px;
       font-weight: 700;
       margin-bottom: 6px;
@@ -65,9 +105,9 @@
 
     .input-field {
       width: 100%;
-      background-color: #222222;
-      border: 1px solid #444444;
-      color: #FFFFFF;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-primary);
       font-size: 16px !important;
       font-weight: 600;
       padding: 12px 14px;
@@ -77,7 +117,7 @@
     }
 
     .input-field:focus {
-      border-color: #D4AF37;
+      border-color: var(--border-gold);
     }
 
     .btn-gold {
@@ -86,7 +126,7 @@
       color: #000000;
       font-size: 16px;
       font-weight: 800;
-      padding: 15px;
+      padding: 14px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -103,6 +143,22 @@
       box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
     }
 
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+    }
+
     .category-list {
       display: flex;
       flex-direction: column;
@@ -113,28 +169,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(180deg, #262626 0%, #1A1A1A 100%);
-      border: 1.5px solid #3A3A3A;
+      background: var(--btn-cat-bg);
+      border: 1.5px solid var(--btn-cat-border);
       padding: 14px 16px;
       border-radius: 12px;
-      color: #FFFFFF;
+      color: var(--text-primary);
       font-weight: 700;
       font-size: 15px;
       cursor: pointer;
       text-decoration: none;
       user-select: none;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.12s ease, border-color 0.12s ease;
     }
 
     .category-btn:hover {
-      border-color: #D4AF37;
-      background: linear-gradient(180deg, #2E2E2E 0%, #202020 100%);
+      border-color: var(--border-gold);
     }
 
     .category-btn:active {
       transform: translateY(2px) scale(0.98);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     }
 
     .category-btn.unlocked {
@@ -148,33 +202,178 @@
       line-height: 1.3;
     }
 
-    .price-badge, .view-badge {
-      padding: 8px 16px;
+    .price-badge {
+      padding: 8px 14px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 800;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      flex-shrink: 0;
-    }
-
-    .price-badge {
       background: linear-gradient(135deg, #A80000 0%, #700000 100%);
       color: #FFFFFF;
       border: 1px solid #C00000;
-    }
-
-    .view-badge {
-      background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%);
-      color: #000000;
-      border: 1px solid #E5C158;
+      flex-shrink: 0;
     }
 
     .unlocked .price-badge {
       background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%);
       color: #000000;
       border: none;
+    }
+
+    .gallery-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .profile-card {
+      background: var(--profile-card-bg);
+      border: 1px solid var(--btn-cat-border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .profile-img-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 300px;
+      background-color: var(--input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .view-count-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      color: #FFFFFF;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .profile-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .like-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .like-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: var(--text-secondary);
+      stroke-width: 2;
+      transition: transform 0.2s ease, fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    .like-btn.liked svg {
+      fill: #FF3B30;
+      stroke: #FF3B30;
+      transform: scale(1.15);
+    }
+
+    .like-btn.liked span {
+      color: #FF3B30;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--modal-overlay);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px 20px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--border-gold);
+    }
+
+    .modal-text {
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--input-border);
+      color: var(--text-secondary);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .hidden {
@@ -210,30 +409,38 @@
 
     <!-- STEP 3: CATEGORIES -->
     <div id="step-3" class="card hidden">
-      <div class="category-list">
-        <a href="gallery.html" class="category-btn">
-          <span class="category-title">View pictures of everyone available</span>
-          <span class="view-badge">View</span>
-        </a>
+      <p class="card-instruction">Click on the connections you want to view available pictures.</p>
+      <div id="category-container" class="category-list"></div>
+    </div>
 
-        <div id="category-container" class="category-list"></div>
-      </div>
+    <!-- STEP 4: PROFILES / PICTURES GALLERY -->
+    <div id="step-4" class="card hidden">
+      <button class="btn-secondary" onclick="showStep(3)">&larr; Back to Categories</button>
+      <p class="card-instruction" id="gallery-title">Available Connections</p>
+      <div id="gallery-container" class="gallery-container"></div>
     </div>
   </div>
 
+  <div id="modal-root"></div>
+
   <script>
-    const PAYSTACK_LIVE_KEY = "pk_live_88ba11e7af2c83ef0e73e19768947cdf5c2c124f";
+    // SQUAD TEST PUBLIC KEY (Used for testing while KYC is pending)
+    const SQUAD_PUBLIC_KEY = "test_pk_sample-public-key-1";
+
+    const GITHUB_REPO_OWNER = "gempluto";
+    const GITHUB_REPO_NAME = "my-project";
+    
+    const BASE_TIME_REF = 1735689600000;
 
     const categories = [
-      { id: 'sugar_mommy', name: 'Sugar mommy or Sugar daddy', price: 2000, page: 'sugar_mommy.html' },
-      { id: 'vip_social', name: 'Hookup girls group', price: 1500, page: 'vip_social.html' },
-      { id: 'private_video', name: 'Sex video call', price: 1000, page: 'private_video.html' },
-      { id: 'casual_friendship', name: 'Friends with benefits', price: 1000, page: 'casual_friendship.html' },
-      { id: 'media_exchange', name: 'Sex video and sex tape group', price: 1000, page: 'media_exchange.html' },
-      { id: 'serious_ng', name: 'Serious relationship in Nigeria', price: 1000, page: 'serious_ng.html' },
-      { id: 'serious_int', name: 'Serious relationship outside Nigeria', price: 5000, page: 'serious_int.html' },
-      { id: 'paid_chat', name: 'Get paid for chatting with clients', price: 8000, page: 'paid_chat.html' }
+      { id: 'sugar_mommy', folder: 'sugar_mommy', name: 'Sugar mommy or Sugar daddy', price: 2000, page: 'sugar_mommy.html' },
+      { id: 'media_exchange', folder: 'media_exchange', name: 'Hookup girls, Friends with benefits and sex video call', price: 1500, page: 'media_exchange.html' },
+      { id: 'serious_ng', folder: 'serious_ng', name: 'Serious relationship in Nigeria', price: 1000, page: 'serious_ng.html' },
+      { id: 'serious_int', folder: 'serious_int', name: 'Serious relationship outside Nigeria', price: 5000, page: 'serious_int.html' },
+      { id: 'paid_chat', folder: 'paid_chat', name: 'Get paid for chatting with rich people abroad', price: 8000, page: 'paid_chat.html' }
     ];
+
+    let activeCategory = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       const onboardingDone = localStorage.getItem('onboarding_complete');
@@ -249,8 +456,10 @@
       document.getElementById('step-1').classList.add('hidden');
       document.getElementById('step-2').classList.add('hidden');
       document.getElementById('step-3').classList.add('hidden');
+      document.getElementById('step-4').classList.add('hidden');
 
       document.getElementById(`step-${stepNumber}`).classList.remove('hidden');
+      window.scrollTo(0, 0);
     }
 
     function nextStep(stepNumber) {
@@ -288,57 +497,228 @@
           <span class="category-title">${cat.name}</span>
           <span class="price-badge">${isUnlocked ? 'UNLOCKED' : '₦' + cat.price.toLocaleString()}</span>
         `;
-        btn.onclick = () => handleCategoryClick(cat);
+        
+        btn.onclick = () => {
+          if (isUnlocked) {
+            localStorage.setItem('selected_category_name', cat.name);
+            window.location.href = cat.page;
+          } else {
+            activeCategory = cat;
+            openPrePaymentChoiceModal(cat);
+          }
+        };
+
         container.appendChild(btn);
       });
     }
 
-    function handleCategoryClick(cat) {
-      const unlocked = JSON.parse(localStorage.getItem('unlocked_cats') || '[]');
+    function openPrePaymentChoiceModal(cat) {
+      const root = document.getElementById('modal-root');
+      root.innerHTML = `
+        <div id="payment-modal" class="modal-overlay">
+          <div class="modal-card">
+            <h3 class="modal-title">Get Connected</h3>
+            <p class="modal-text">
+              You are required to pay the membership fee of <strong>₦${cat.price.toLocaleString()}</strong> for <strong>${cat.name}</strong>. You can proceed directly to payment or view available pictures first.
+            </p>
+            <div class="modal-actions">
+              <button class="btn-gold" onclick="proceedToPaymentDirectly()">Pay Now</button>
+              <button class="btn-gold" style="background: transparent; border: 1px solid var(--border-gold); color: var(--text-primary);" onclick="proceedToGallery()">View the Pictures Available Before Making Payment</button>
+              <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
-      if (unlocked.includes(cat.id)) {
-        localStorage.setItem('selected_category_name', cat.name);
-        window.location.href = cat.page;
-      } else {
-        payWithPaystack(cat);
+    function proceedToPaymentDirectly() {
+      const catToPay = activeCategory;
+      closeModal();
+      if (catToPay) {
+        SquadPay(catToPay);
       }
     }
 
-    function payWithPaystack(cat) {
+    function proceedToGallery() {
+      const cat = activeCategory;
+      closeModal();
+      if (cat) {
+        openCategoryGallery(cat);
+      }
+    }
+
+    async function openCategoryGallery(cat) {
+      activeCategory = cat;
+      const unlocked = JSON.parse(localStorage.getItem('unlocked_cats') || '[]');
+      const isUnlocked = unlocked.includes(cat.id);
+
+      document.getElementById('gallery-title').innerText = `${cat.name} - Available Profiles`;
+      const container = document.getElementById('gallery-container');
+      container.innerHTML = '<p class="card-instruction">Loading pictures...</p>';
+
+      showStep(4);
+
+      let imageFiles = [];
+      const cacheKey = `gh_files_${cat.folder}`;
+      const cachedData = sessionStorage.getItem(cacheKey);
+
+      if (cachedData) {
+        imageFiles = JSON.parse(cachedData);
+      } else {
+        try {
+          const apiUrl = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/images/${cat.folder}`;
+          const response = await fetch(apiUrl);
+          if (response.ok) {
+            const data = await response.json();
+            imageFiles = data
+              .filter(file => file.type === 'file' && !file.name.startsWith('.'))
+              .map(file => file.name);
+            
+            sessionStorage.setItem(cacheKey, JSON.stringify(imageFiles));
+          }
+        } catch (e) {
+          console.error("Error fetching folder contents from GitHub:", e);
+        }
+      }
+
+      container.innerHTML = '';
+
+      if (!imageFiles || imageFiles.length === 0) {
+        container.innerHTML = '<p class="card-instruction">No pictures currently available in this category folder.</p>';
+        return;
+      }
+
+      const now = Date.now();
+      const hoursElapsed = Math.max(0, Math.floor((now - BASE_TIME_REF) / (1000 * 60 * 60)));
+
+      imageFiles.forEach((filename, index) => {
+        const profileNum = index + 1;
+        const imageId = `${cat.id}_${filename}`;
+
+        let hash = 0;
+        for (let i = 0; i < imageId.length; i++) {
+          hash = (hash << 5) - hash + imageId.charCodeAt(i);
+          hash |= 0;
+        }
+        hash = Math.abs(hash);
+
+        const baseViews = 9000 + (hash % 5000);
+        const baseLikes = 250 + (hash % 400);
+
+        const totalViews = baseViews + (hoursElapsed * 5);
+        const viewsFormatted = (totalViews / 1000).toFixed(1) + 'k views';
+
+        const isUserLiked = localStorage.getItem(`liked_${imageId}`) === 'true';
+        const userBonus = isUserLiked ? 1 : 0;
+        const totalLikes = baseLikes + hoursElapsed + userBonus;
+
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+
+        const imagePath = `images/${cat.folder}/${filename}`;
+
+        card.innerHTML = `
+          <div class="profile-img-wrapper">
+            <span class="view-count-badge">
+              👁️ ${viewsFormatted}
+            </span>
+            <img class="profile-img" 
+                 src="${imagePath}" 
+                 alt="Available Profile ${profileNum}">
+          </div>
+          <div class="profile-body">
+            <div class="profile-header">
+              <span class="profile-name">Available Profile #${profileNum}</span>
+              <button class="like-btn ${isUserLiked ? 'liked' : ''}" 
+                      onclick="toggleLike(this, '${imageId}', ${baseLikes + hoursElapsed})">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span>${totalLikes}</span>
+              </button>
+            </div>
+            <button class="btn-gold" onclick="openPaymentModalFromGallery()">Get Connected &rarr;</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openPaymentModalFromGallery() {
+      if (!activeCategory) return;
+      
+      const root = document.getElementById('modal-root');
+      root.innerHTML = `
+        <div id="payment-modal" class="modal-overlay">
+          <div class="modal-card">
+            <h3 class="modal-title">Get Connected</h3>
+            <p class="modal-text">
+              Please note that we cannot take any further steps with your request until the <strong>₦${activeCategory.price.toLocaleString()}</strong> membership fee for <strong>${activeCategory.name}</strong> is paid. Kindly make the payment so we can continue.
+             </p>
+            <div class="modal-actions">
+              <button class="btn-gold" onclick="proceedToPaymentFromGallery()">Proceed to Payment</button>
+              <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function closeModal() {
+      document.getElementById('modal-root').innerHTML = '';
+    }
+
+    function proceedToPaymentFromGallery() {
+      const catToPay = activeCategory;
+      closeModal();
+      if (catToPay) {
+        SquadPay(catToPay);
+      }
+    }
+
+    // Squad Payment Function Integration (Test Mode)
+    function SquadPay(cat) {
       const rawFullName = (localStorage.getItem('user_name') || 'Customer User').trim();
-      const userPhone = (localStorage.getItem('user_phone') || '08000000000').replace(/[^0-9]/g, '');
-
-      // Dynamic unique email per session to prevent Paystack NUBAN throttling
+      const userPhone = (localStorage.getItem('user_phone') || '08000000000').trim();
       const sessionTimestamp = Date.now();
-      const sessionEmail = `pay_${userPhone}_${sessionTimestamp}@mercy.name.ng`;
+      const sessionEmail = `pay_${userPhone.replace(/[^0-9]/g, '')}_${sessionTimestamp}@mercy.name.ng`;
 
-      const nameParts = rawFullName.split(/\s+/);
-      const firstName = nameParts[0] || 'Customer';
-      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'User';
-
-      let handler = PaystackPop.setup({
-        key: PAYSTACK_LIVE_KEY, 
+      const squadInstance = new squad({
+        key: SQUAD_PUBLIC_KEY,
         email: sessionEmail,
-        phone: userPhone,
-        firstname: firstName,
-        lastname: lastName,
-        amount: cat.price * 100,
-        currency: 'NGN',
-        channels: ['bank_transfer'],
-        callback: function(response) {
-          alert('Payment successful! Category unlocked.');
+        amount: cat.price * 100, // Multiplied by 100 for kobo conversion
+        currency_code: "NGN",
+        transaction_ref: `sq_${sessionTimestamp}_${Math.floor(Math.random() * 10000)}`,
+        customer_name: rawFullName,
+        payment_channels: ["bank_transfer"],
+        onLoad: () => console.log("Widget loaded successfully"),
+        onClose: () => console.log("Widget closed"),
+        onSuccess: (response) => {
+          console.log("Payment successful:", response);
           let unlocked = JSON.parse(localStorage.getItem('unlocked_cats') || '[]');
           if (!unlocked.includes(cat.id)) {
             unlocked.push(cat.id);
             localStorage.setItem('unlocked_cats', JSON.stringify(unlocked));
           }
           localStorage.setItem('selected_category_name', cat.name);
-          renderCategories();
           window.location.href = cat.page;
-        },
-        onClose: function() {}
+        }
       });
-      handler.openIframe();
+      
+      squadInstance.setup();
+      squadInstance.open();
+    }
+
+    function toggleLike(btnElement, imageId, currentBaseLikes) {
+      const isCurrentlyLiked = btnElement.classList.contains('liked');
+      const newLikedState = !isCurrentlyLiked;
+      
+      btnElement.classList.toggle('liked', newLikedState);
+      localStorage.setItem(`liked_${imageId}`, newLikedState ? 'true' : 'false');
+
+      const countSpan = btnElement.querySelector('span');
+      const updatedLikes = currentBaseLikes + (newLikedState ? 1 : 0);
+      countSpan.innerText = updatedLikes;
     }
   </script>
 </body>
