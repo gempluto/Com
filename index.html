@@ -13,15 +13,21 @@
 
         .ios-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; width: 100%; max-width: 340px; }
         
-        .ios-icon-badge { width: 80px; height: 80px; background: #1c1c1e; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 4px; border: 0.5px solid rgba(255, 255, 255, 0.15); }
+        /* Clean instruction layout without heading or icon */
+        .instruction-text { font-size: 15.5px; color: #ffffff; line-height: 1.5; font-weight: 500; }
+        .instruction-text .line-two { color: #8e8e93; font-size: 14.5px; margin-top: 4px; display: block; }
         
-        h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: #ffffff; }
-        p { font-size: 14.5px; color: #d1d1d6; line-height: 1.45; font-weight: 500; }
+        .arrow-indicator { font-size: 24px; margin: 4px 0; animation: bounce 1.5s infinite; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(6px); }
+            60% { transform: translateY(3px); }
+        }
 
-        .ios-btn-group { width: 100%; margin-top: 24px; }
+        .ios-btn-group { width: 100%; margin-top: 8px; }
         
-        /* Prominent, highly clickable button centered on screen */
-        .ios-btn { width: 100%; background: #1c1c1e; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); padding: 18px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.1s; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        /* Highly prominent, clearly clickable button */
+        .ios-btn { width: 100%; background: #1c1c1e; color: #ffffff; border: 1.5px solid rgba(255, 255, 255, 0.4); padding: 18px; border-radius: 14px; font-size: 16.5px; font-weight: 700; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.1s; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
         .ios-btn:active { transform: scale(0.97); background: #2c2c2e; }
     </style>
 </head>
@@ -29,9 +35,12 @@
 
 <div class="ios-container">
     <div class="ios-content">
-        <div class="ios-icon-badge">✨</div>
-        <h1>Welcome Portal</h1>
-        <p>Click on the button below that says (View All Connections) to see the list for all the connections we can offer you.</p>
+        <div class="instruction-text">
+            Click on the <strong>View All Connections</strong> button below
+            <span class="line-two">to see all the connections we have to offer.</span>
+        </div>
+
+        <div class="arrow-indicator">👇</div>
         
         <div class="ios-btn-group">
             <a href="connections.html" class="ios-btn">View All Connections</a>
