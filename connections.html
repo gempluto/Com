@@ -3,38 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Connections</title>
+    <title>Available Connections</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, sans-serif; touch-action: manipulation; -webkit-font-smoothing: antialiased; }
-        html, body { height: 100vh; height: 100dvh; background: #000000; color: #ffffff; overflow: hidden; position: fixed; width: 100%; top: 0; left: 0; }
+        html, body { height: 100vh; height: 100dvh; background: #e8e2d9; color: #1c1b1a; overflow: hidden; position: fixed; width: 100%; top: 0; left: 0; }
 
-        .ios-container { width: 100%; max-width: 428px; height: 100vh; height: 100dvh; background: #000000; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 16px; overflow: hidden; }
-        @media (min-width: 500px) { .ios-container { height: 884px; border-radius: 48px; border: 12px solid #1c1c1e; box-shadow: 0 25px 60px rgba(0,0,0,0.9); } }
+        .ios-container { width: 100%; max-width: 428px; height: 100vh; height: 100dvh; background: #e8e2d9; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 18px; overflow: hidden; margin: 0 auto; }
+        @media (min-width: 500px) { .ios-container { height: 884px; border-radius: 48px; border: 12px solid #2c2a29; box-shadow: 0 25px 60px rgba(0,0,0,0.2); } }
 
-        /* iOS Navigation Bar */
-        .ios-navbar { display: flex; align-items: center; justify-content: space-between; width: 100%; padding-top: 4px; margin-bottom: 6px; }
-        .ios-back-btn { color: #d4af37; font-size: 16px; font-weight: 500; text-decoration: none; display: flex; align-items: center; }
-        .ios-navbar h1 { font-size: 17px; font-weight: 600; color: #ffffff; letter-spacing: -0.4px; position: absolute; left: 50%; transform: translateX(-50%); }
+        /* Top Bar with Back Button Only */
+        .ios-navbar { display: flex; align-items: center; width: 100%; padding-top: 2px; margin-bottom: 4px; }
+        .ios-back-btn { color: #1c1b1a; font-size: 16px; font-weight: 700; text-decoration: none; display: flex; align-items: center; }
 
-        /* Prominent Bold Instruction Box */
-        .instruction-box { background: rgba(212, 175, 55, 0.1); border: 0.5px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 10px 12px; margin-bottom: 6px; font-size: 12px; line-height: 1.4; color: #ffffff; text-align: center; font-weight: bold; }
-        .instruction-box span { color: #d4af37; text-decoration: underline; }
+        /* Plain Instruction Text (No Box, No Underlines) */
+        .instruction-text { font-size: 13px; line-height: 1.4; color: #1c1b1a; font-weight: 700; text-align: left; padding-bottom: 8px; border-bottom: 1px solid #cfc6b8; }
 
-        /* iOS Grouped Card List */
-        .ios-list-group { background: #121214; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; width: 100%; flex-grow: 1; justify-content: space-evenly; padding: 4px 14px; margin: 4px 0; border: 0.5px solid rgba(212, 175, 55, 0.2); }
-        .ios-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid rgba(255, 255, 255, 0.08); gap: 10px; }
-        .ios-row:last-child { border-bottom: none; }
+        /* Plain Vertical List Without Boxes */
+        .connection-list { display: flex; flex-direction: column; justify-content: space-evenly; width: 100%; flex-grow: 1; padding: 4px 0; }
+        .connection-row { display: flex; align-items: baseline; gap: 10px; padding: 5px 0; border-bottom: 1px solid #d9d1c5; }
+        .connection-row:last-child { border-bottom: none; }
 
-        .ios-row-left { display: flex; align-items: baseline; gap: 10px; flex: 1; }
-        
-        /* Prominent Bold Numbers */
-        .ios-number { color: #d4af37; font-size: 15px; font-weight: 800; min-width: 20px; text-align: right; flex-shrink: 0; }
-        
-        /* Big Bold Connection Text */
-        .ios-title { font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: -0.2px; line-height: 1.3; }
-        
-        /* Clean Non-overlapping Price Tag */
-        .ios-price { font-size: 13px; font-weight: 700; color: #34c759; background: rgba(52, 199, 89, 0.12); padding: 5px 9px; border-radius: 8px; flex-shrink: 0; white-space: nowrap; }
+        .connection-number { color: #1c1b1a; font-size: 15px; font-weight: 800; min-width: 20px; text-align: right; flex-shrink: 0; }
+        .connection-details { font-size: 14px; color: #1c1b1a; line-height: 1.3; font-weight: 700; }
+        .connection-fee { font-weight: 500; color: #4a4744; font-size: 13.5px; }
     </style>
 </head>
 <body>
@@ -42,70 +33,44 @@
 <div class="ios-container">
     <div class="ios-navbar">
         <a href="index.html" class="ios-back-btn">‹ Back</a>
-        <h1>Connections</h1>
-        <div style="width: 45px;"></div>
     </div>
 
-    <div class="instruction-box">
-        Please view all these connections, then message me on WhatsApp and tell me which connection you are interested in. <span>Please respond with only the number (1, 2, 3...).</span>
+    <div class="instruction-text">
+        Please view all these connections, then message me on WhatsApp and tell me which connection you are interested in. Please respond with only the number (1, 2, 3...).
     </div>
 
-    <div class="ios-list-group">
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">1.</span>
-                <span class="ios-title">Sugar mommy or Sugar daddy</span>
-            </div>
-            <span class="ios-price">₦2000</span>
+    <div class="connection-list">
+        <div class="connection-row">
+            <span class="connection-number">1.</span>
+            <div class="connection-details">Sugar mommy or Sugar daddy <span class="connection-fee">— The connection fee is ₦2000</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">2.</span>
-                <span class="ios-title">Hookup girls group</span>
-            </div>
-            <span class="ios-price">₦1500</span>
+        <div class="connection-row">
+            <span class="connection-number">2.</span>
+            <div class="connection-details">Hookup girls group <span class="connection-fee">— The connection fee is ₦1500</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">3.</span>
-                <span class="ios-title">Sex video call</span>
-            </div>
-            <span class="ios-price">₦1000</span>
+        <div class="connection-row">
+            <span class="connection-number">3.</span>
+            <div class="connection-details">Sex video call <span class="connection-fee">— The connection fee is ₦1000</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">4.</span>
-                <span class="ios-title">Friends with benefits</span>
-            </div>
-            <span class="ios-price">₦1000</span>
+        <div class="connection-row">
+            <span class="connection-number">4.</span>
+            <div class="connection-details">Friends with benefits <span class="connection-fee">— The connection fee is ₦1000</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">5.</span>
-                <span class="ios-title">Sex video and sex tape group</span>
-            </div>
-            <span class="ios-price">₦1000</span>
+        <div class="connection-row">
+            <span class="connection-number">5.</span>
+            <div class="connection-details">Sex video and sex tape group <span class="connection-fee">— The connection fee is ₦1000</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">6.</span>
-                <span class="ios-title">Serious relationship in Nigeria</span>
-            </div>
-            <span class="ios-price">₦1000</span>
+        <div class="connection-row">
+            <span class="connection-number">6.</span>
+            <div class="connection-details">Serious relationship in Nigeria <span class="connection-fee">— The connection fee is ₦1000</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">7.</span>
-                <span class="ios-title">Serious relationship outside Nigeria</span>
-            </div>
-            <span class="ios-price">₦5000</span>
+        <div class="connection-row">
+            <span class="connection-number">7.</span>
+            <div class="connection-details">Serious relationship outside Nigeria <span class="connection-fee">— The connection fee is ₦5000</span></div>
         </div>
-        <div class="ios-row">
-            <div class="ios-row-left">
-                <span class="ios-number">8.</span>
-                <span class="ios-title">Get paid for chatting with rich people abroad</span>
-            </div>
-            <span class="ios-price">₦8000</span>
+        <div class="connection-row">
+            <span class="connection-number">8.</span>
+            <div class="connection-details">Get paid for chatting with rich people abroad <span class="connection-fee">— The connection fee is ₦8000</span></div>
         </div>
     </div>
 </div>
